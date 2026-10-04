@@ -1,0 +1,31 @@
+# Python environments
+.venv/
+venv/
+FinGuard/
+
+# Secrets and local environment config
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+
+# Local data files
+*.csv
+*.parquet
+*.log
+
+# Project-specific sensitive folders
+finguard_project/
+kafka_producer/.env
+kafka_producer/data/
