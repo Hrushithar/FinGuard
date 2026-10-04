@@ -1,30 +1,37 @@
 # FinGuard — Real-Time Credit Card Fraud Detection Platform
 
-FinGuard is a real-time fraud detection platform that combines Kafka-based transaction streaming, Databricks medallion processing, and alerting to detect suspicious payment activity as it happens.
+FinGuard is a real-time fraud detection solution designed to simulate credit card transactions, ingest them through Kafka, process them in a Databricks Lakehouse pipeline, and surface suspicious activity through alerts and a monitoring dashboard.
 
 <p align="center">
-  <img src="./assets/finGuard-architecture.svg" alt="FinGuard platform architecture" width="1200" />
+  <img src="./assets/IMG_0070.PNG" alt="FinGuard platform architecture" width="1200" />
 </p>
 
-## Overview
+## What this project does
 
-The platform models a modern data pipeline for financial fraud prevention:
+The project creates an end-to-end fraud monitoring workflow for financial transactions:
 
-- Streaming transaction data is generated from producers and sent through Kafka.
-- Data is ingested and transformed using a Databricks Lakehouse architecture.
-- Fraud rules are applied in bronze, silver, and gold layers.
-- Risky transactions trigger alerts and monitoring dashboards.
-- Governance and lineage are managed with Unity Catalog and controlled deployment workflows.
+- Generates realistic customer, merchant, and transaction activity
+- Simulates both normal and fraudulent payment behavior
+- Publishes transaction events to Kafka in near real time
+- Processes raw messages through a bronze, silver, and gold medallion architecture
+- Detects suspicious patterns such as watchlist matches and high-risk transaction behavior
+- Sends alerts and exposes a dashboard for monitoring fraud activity
+
+## Dashboard
+
+A fraud monitoring dashboard was created to visualize suspicious transaction trends and alert activity.
+
+- Dashboard PDF: [FinGuard Dashboard PDF](./assets/FinGuard-Dashboard.pdf)
 
 ## Key Features
 
 - Real-time credit card transaction simulation
-- Kafka ingestion for high-throughput event streams
+- Kafka-based event streaming
 - Databricks structured streaming with a medallion architecture
 - Fraud watchlist matching and rule-based risk scoring
 - High-value and card-based fraud alert notifications
 - Gold-layer dashboards and operational monitoring
-- Secure configuration and secret-driven access patterns
+- Secure configuration using environment variables and secret-scoped access for production workloads
 
 ## Architecture
 
@@ -38,7 +45,7 @@ The project is split into two major parts:
 2. Databricks streaming pipeline
    - Reads Kafka topic data in the bronze layer
    - Cleans and enriches records in silver tables
-   - Acts on fraud patterns in gold tables
+   - Applies fraud logic and aggregations in gold tables
    - Sends real-time alerts and updates downstream systems
 
 ## Repository Structure
@@ -47,7 +54,8 @@ The project is split into two major parts:
 FinGuard/
 ├── README.md
 ├── assets/
-│   └── finGuard-architecture.svg
+│   ├── IMG_0070.PNG
+│   └── FinGuard-Dashboard.pdf
 ├── FinGuard/                  # Python virtual environment
 ├── kafka_producer/            # Transaction generator and Kafka integration
 │   ├── config.py
@@ -64,18 +72,7 @@ FinGuard/
 │   ├── transaction_generator.py
 │   ├── update_csv_email.py
 │   └── utils.py
-├── finguard_project/
-│   ├── manifest.mf
-│   └── finguard_project/
-│       ├── 01_kafka_streaming_test.py
-│       ├── 02_Setup_Secret_Scope.py.py
-│       ├── Autoloader_test.py.py
-│       ├── fraud_watchlist_file_generator/
-│       └── finguard_streaming/
-│           ├── alert/
-│           ├── bronze/
-│           ├── gold/
-│           └── silver/
+├── finguard_project/          # Databricks / streaming project files
 └── .git/
 ```
 
@@ -142,7 +139,7 @@ python producer_fraud_card.py
 
 ## Streaming Pipeline Components
 
-The pipeline under `finguard_project/finguard_project/finguard_streaming` includes:
+The pipeline under the Databricks project includes:
 
 - `bronze/` for raw Kafka or Auto Loader ingestion
 - `silver/` for cleansing, enrichment, and deduplication
@@ -159,7 +156,7 @@ Examples of implemented logic include:
 
 ## Notes
 
-This repository is a practical implementation of a real-time fraud monitoring design using Kafka, Spark Structured Streaming, and Databricks Lakehouse components. It is well suited for demonstration, proof-of-concept, and learning scenarios.
+This repository contains a practical implementation of a real-time fraud monitoring design using Kafka, Spark Structured Streaming, and Databricks Lakehouse components. It is well suited for demonstration, proof-of-concept, and learning scenarios.
 
 ## License
 
